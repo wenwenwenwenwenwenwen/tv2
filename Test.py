@@ -199,7 +199,7 @@ def get_sourceIpsBy360(province,org):
             "shortcuts": ["635fcbaacc57190bd8826d0b"],
             "query": f"udpxy AND province: \"{province}\" AND isp: \"{org}\"",
             "start": 0,
-            "size": 30,
+            "size": 15,
             "device": {
                 "device_type": "PC",
                 "os": "Windows",
