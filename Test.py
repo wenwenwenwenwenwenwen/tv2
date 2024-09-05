@@ -29,11 +29,12 @@ surls = [
     "福建", # 福建
     "甘肃", # 甘肃
     "辽宁", # 辽宁
+    "安徽", # 安徽
 ]
 #'''
 '''
 surls = [
-    "辽宁", # 辽宁
+    "安徽", # 安徽
 ]
 '''
 resultsUrl = []
@@ -167,6 +168,8 @@ def get_sourceIps(province,city,org):
                     province="heilongjiang"
                 if("吉林"==province):
                     province="jilin"
+                if("安徽"==province):
+                    province="anhui"
                 results.append({
                     'ip_port': url,
                     'source': province+source,
@@ -277,6 +280,8 @@ def get_sourceIpsBy360(province,org):
             province="heilongjiang"
         if("吉林"==province):
             province="jilin"
+        if("安徽"==province):
+            province="anhui"
         if('移动' in org):
             source='yidong'
         if('联通' in org):
@@ -396,6 +401,7 @@ def checkOpenUrl(url):
                 payUrl = payUrl.replace("http://117.28.177.215:8605",url.get("ip_port"))
                 payUrl = payUrl.replace("http://www.lebaobei.top:6868",url.get("ip_port"))
                 payUrl = payUrl.replace("http://60.17.195.0:8888",url.get("ip_port"))
+                payUrl = payUrl.replace("http://183.166.208.104:4000",url.get("ip_port"))
                 payUrls = payUrl.split(",")
                 speed = validPlay(payUrls[1])
                 if(speed is not None and speed>300):
@@ -514,6 +520,7 @@ for vurl in resultsUrl:
                 payUrl = payUrl.replace("http://117.28.177.215:8605",ip_port)
                 payUrl = payUrl.replace("http://www.lebaobei.top:6868",ip_port)
                 payUrl = payUrl.replace("http://60.17.195.0:8888",ip_port)
+                payUrl = payUrl.replace("http://183.166.208.104:4000",ip_port)
                 channel_name,channel_url = payUrl.split(",")
                 result = channel_name, channel_url, f"{normalized_speed:.3f} MB/s",province
                 results.append(result)
