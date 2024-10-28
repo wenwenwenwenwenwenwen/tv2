@@ -23,22 +23,12 @@ jobs:
         run: pip install selenium==4.19.0 requests==2.31.0 futures==3.0.5 eventlet==0.36.1 beautifulsoup4==4.12.3
       - name: Run itv_all
         run: python ${{ github.workspace }}/Test.py
-
-      #- name: Run cctv
-        #run: python ${{ github.workspace }}/cctv.py
-        
-      #- name: Run weishi
-        #run: python ${{ github.workspace }}/weishi.py
-        
-      #- name: Run qita
-        #run: python ${{ github.workspace }}/qita.py
-        
-       #- name: 提交更改
-       #  run: |
-        #   git config --local user.email "2936283507@qq.com"
-       #    git config --local user.name "wenwenwenwenwenwenwen"
-         #  git add .
-        #   git commit *.txt -m "Add generated file"
-         #  #git commit *.m3u -m "Add generated file"
-          #git pull --rebase
-          # git push -f
+      - name: 提交更新
+        run: |
+           git config --local user.email "2936283507@qq.com"
+           git config --local user.name "wenwenwenwenwenwenwen"
+           git add .
+           git commit *.txt -m "Add generated file"
+           #git commit *.m3u -m "Add generated file"
+           git pull --rebase
+           git push -f
