@@ -24,11 +24,11 @@ jobs:
       - name: Run itv_all
         run: python ${{ github.workspace }}/Test.py
       - name: 提交更新
-        run: |
-           git config --local user.email "2936283507@qq.com"
-           git config --local user.name "wenwenwenwenwenwenwen"
+       # run: |
+       #    git config --local user.email "2936283507@qq.com"
+       #   git config --local user.name "wenwenwenwenwenwenwen"
            #git add .
            #git commit *.txt -m "Add generated file"
            #git commit *.m3u -m "Add generated file"
-           git pull --rebase
-           git push origin main -f
+       #    git pull --rebase
+      #     git push origin main -f
