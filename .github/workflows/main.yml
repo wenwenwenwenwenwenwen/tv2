@@ -28,7 +28,7 @@ jobs:
            git config --local user.email "2936283507@qq.com"
            git config --local user.name "wenwenwenwenwenwenwen"
            git add .
-           git commit *.txt -m "Add generated file"
+           #git commit *.txt -m "Add generated file"
            #git commit *.m3u -m "Add generated file"
-           #git pull --rebase
+           git commit -m "Add generated file" || echo "No changes to commit"
            git push origin main -f
