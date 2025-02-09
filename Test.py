@@ -325,7 +325,7 @@ def validPlay(payUlr):
         # 检查响应状态码是否为200，即请求成功
         if response is not None and response.status_code == 200:
             # 下载一小部分数据，例如1MB
-            chunk_size = 5*1024 * 1024 # 1MB
+            chunk_size = 1024 * 1024 # 1MB
             data = b''
             #data = response.raw.read(chunk_size)
             # 试试下面的代码
@@ -358,7 +358,7 @@ def validPlay(payUlr):
                 # print(f"文件大小：{file_size} 字节")
                 download_speed = file_size / response_time / 1024
                 print(f"下载速度：{download_speed:.3f} kB/s")
-                if(download_speed>1000):
+                if(download_speed>800):
                     return download_speed
                 else:
                     return 0
