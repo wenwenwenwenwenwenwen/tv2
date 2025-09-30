@@ -217,7 +217,7 @@ def validPlay(payUlr):
                 # print(f"文件大小：{file_size} 字节")
                 download_speed = file_size / response_time / 1024
                 print(f"下载速度：{download_speed:.3f} kB/s")
-                if(download_speed>800):
+                if(download_speed>500):
                     return download_speed
                 else:
                     return 0
@@ -446,3 +446,4 @@ def uploadTvlist(file_path):
     except Exception as e:
         print(f"上传tvlist失败: {e}")
 uploadTvlist("itvlist.txt");
+
