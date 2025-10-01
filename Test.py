@@ -217,7 +217,7 @@ def validPlay(payUlr):
                 # print(f"文件大小：{file_size} 字节")
                 download_speed = file_size / response_time / 1024
                 print(f"下载速度：{download_speed:.3f} kB/s")
-                if(download_speed>300):
+                if(download_speed>500):
                     return download_speed
                 else:
                     return 0
@@ -263,7 +263,7 @@ def checkOpenUrl(url):
                 payUrl = payUrl.replace("http://183.166.208.104:4000",url.get("ip_port"))
                 payUrls = payUrl.split(",")
                 speed = validPlay(payUrls[1])
-                if(speed is not None and speed>300):
+                if(speed is not None and speed>500):
                     print("validPlay yes:"+payUrl+"speed:"+str(speed))  # strip() 方法去除每行末尾的换行符
                     return speed
                     break
@@ -446,5 +446,6 @@ def uploadTvlist(file_path):
     except Exception as e:
         print(f"上传tvlist失败: {e}")
 uploadTvlist("itvlist.txt");
+
 
 
