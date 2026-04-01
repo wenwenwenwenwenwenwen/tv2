@@ -217,7 +217,7 @@ def validPlay(payUlr):
                 # print(f"文件大小：{file_size} 字节")
                 download_speed = file_size / response_time / 1024
                 print(f"下载速度：{download_speed:.3f} kB/s")
-                if(download_speed>900):
+                if(download_speed>600):
                     return download_speed
                 else:
                     return 0
@@ -263,7 +263,7 @@ def checkOpenUrl(url):
                 payUrl = payUrl.replace("http://183.166.208.104:4000",url.get("ip_port"))
                 payUrls = payUrl.split(",")
                 speed = validPlay(payUrls[1])
-                if(speed is not None and speed>900):
+                if(speed is not None and speed>600):
                     print("validPlay yes:"+payUrl+"speed:"+str(speed))  # strip() 方法去除每行末尾的换行符
                     return speed
                     break
@@ -304,7 +304,7 @@ for province in surls:
     for url in urls:
         if(checkValidUrl(url)==1):
             speed = checkOpenUrl(url)
-            if(speed is not None and speed>900):
+            if(speed is not None and speed>600):
                 resultsUrl.append({
                     'ip_port': url.get("ip_port"),
                     'speed': speed,
@@ -318,7 +318,7 @@ for province in surls:
     for url in urls1:
         if(checkValidUrl(url)==1):
             speed = checkOpenUrl(url)
-            if(speed>900):
+            if(speed>600):
                 resultsUrl.append({
                     'ip_port': url.get("ip_port"),
                     'speed': speed,
