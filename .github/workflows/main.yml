@@ -22,7 +22,9 @@ jobs:
       - name: Install dependencies
         run: pip install selenium==4.19.0 requests==2.31.0 futures==3.0.5 eventlet==0.36.1 beautifulsoup4==4.12.3
       - name: Run itv_all
-        run: python ${{ github.workspace }}/Test.py
+        run: |
+          python ${{ github.workspace }}/Test.py
+          python ${{ github.workspace }}/quake_crawler.py
       - name: 提交更新
         run: |
            git config --local user.email "2936283507@qq.com"
