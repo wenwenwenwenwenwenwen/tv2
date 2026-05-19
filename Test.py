@@ -38,6 +38,18 @@ surls = [
 ]
 '''
 resultsUrl = []
+HARDCODED_COOKIE = (
+    "cert_common=9e56a54c-ab45-40d3-bb87-ff03fd949e81; "
+    "Qs_lvt_357693=1744888696%2C1744969268%2C1749459574%2C1778311264; "
+    "__guid=73887506.3542549961087167500.1778311278556.5703; "
+    "__quc_silent__=1; "
+    "Q=u%3D360H2931642336%26n%3D%26le%3D%26m%3DZGt3WGWOWGWOWGWOWGWOWGWOAGZ3%26qid%3D2931642336%26im%3D1_t011655040b3ed000bf%26src%3Dpcw_quake%26t%3D1; "
+    "__NS_Q=u%3D360H2931642336%26n%3D%26le%3D%26m%3DZGt3WGWOWGWOWGWOWGWOWGWOAGZ3%26qid%3D2931642336%26im%3D1_t011655040b3ed000bf%26src%3Dpcw_quake%26t%3D1; "
+    "T=s%3Db83769237d3ff73b0c889bf57699b12f%26t%3D1778311396%26lm%3D0-1%26lf%3D2%26sk%3Dbce334b7c0083ba05b6cbc12b4cd85d9%26mt%3D1778311396%26rc%3D%26v%3D2.0%26a%3D1; "
+    "__NS_T=s%3Db83769237d3ff73b0c889bf57699b12f%26t%3D1778311396%26lm%3D0-1%26lf%3D2%26sk%3Dbce334b7c0083ba05b6cbc12b4cd85d9%26mt%3D1778311396%26rc%3D%26v%3D2.0%26a%3D1; "
+    "Qs_pv_357693=597084160631076400%2C2307276960280465400%2C365256175586685700%2C809127707400654200%2C4108715305003766300"
+)
+HARDCODED_AUTHORIZATION = "233"
 def sort_key(item):
     # 检查'source'中是否包含'组播'
     contains_multicast = 1 if '组播' in item['source'] else 0
@@ -77,9 +89,17 @@ def get_sourceIpsBy360(province,org):
         }
         #print(jsondata)
         headers = {
-            'Content-Type': 'application/json',
-            'User-Agent': 'MyApp/0.0.1',
-            'cookie': '_guid=73887506.3542549961087167500.1778311278556.5703; __quc_silent__=1; Q=u%3D360H2931642336%26n%3D%26le%3D%26m%3DZGt3WGWOWGWOWGWOWGWOWGWOAGZ3%26qid%3D2931642336%26im%3D1_t011655040b3ed000bf%26src%3Dpcw_quake%26t%3D1; __NS_Q=u%3D360H2931642336%26n%3D%26le%3D%26m%3DZGt3WGWOWGWOWGWOWGWOWGWOAGZ3%26qid%3D2931642336%26im%3D1_t011655040b3ed000bf%26src%3Dpcw_quake%26t%3D1; T=s%3Db83769237d3ff73b0c889bf57699b12f%26t%3D1778311396%26lm%3D0-1%26lf%3D2%26sk%3Dbce334b7c0083ba05b6cbc12b4cd85d9%26mt%3D1778311396%26rc%3D%26v%3D2.0%26a%3D1; __NS_T=s%3Db83769237d3ff73b0c889bf57699b12f%26t%3D1778311396%26lm%3D0-1%26lf%3D2%26sk%3Dbce334b7c0083ba05b6cbc12b4cd85d9%26mt%3D1778311396%26rc%3D%26v%3D2.0%26a%3D1; Qs_pv_357693=4122590641376148500%2C1128314277085501600%2C597084160631076400%2C2307276960280465400%2C365256175586685700'
+            "Accept": "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "Origin": "https://quake.360.net",
+            "Referer": "https://quake.360.net/quake/",
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/147.0.0.0 Safari/537.36"
+            ),
+            "Authorization": HARDCODED_AUTHORIZATION,
+            "Cookie": HARDCODED_COOKIE,
         }
         responese = requests.post("https://quake.360.net/api/search/query_string/quake_service",data=json.dumps(jsondata, indent=4),headers=headers)
         parsed_json = json.loads(responese.text)
