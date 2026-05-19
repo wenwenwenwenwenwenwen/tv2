@@ -27,10 +27,13 @@ jobs:
           python ${{ github.workspace }}/quake_crawler.py
       - name: 提交更新
         run: |
-           git config --local user.email "2936283507@qq.com"
-           git config --local user.name "wenwenwenwenwenwenwen"
-           git add .
-           git commit *.txt -m "Add generated file"
-           #git commit *.m3u -m "Add generated file"
-           #git commit -m "Add generated file" || echo "No changes to commit"
-           git push origin main -f
+          git config --local user.email "2936283507@qq.com"
+          git config --local user.name "wenwenwenwenwenwenwen"
+          git add .
+          # 检查是否有更改需要提交
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add generated file"
+            git push origin main -f
+          fi
