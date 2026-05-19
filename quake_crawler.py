@@ -23,7 +23,6 @@ import os
 import re
 import socket
 from dataclasses import dataclass
-from math import ceil
 from pathlib import Path
 from typing import Any
 import sys
@@ -35,18 +34,18 @@ from urllib.parse import urlparse
 
 API_URL = "https://quake.360.net/api/search/query_string/quake_service"
 TVLIST_UPLOAD_URL = "http://api.ximiba.cn/proxy/iptv/uploadTvlist.php"
-DEFAULT_QUERY = 'body:"http://www.slys99.com"'
+DEFAULT_QUERY = "body:\"www.slys99.com\" or body:\"qq1035518789\""
 HARDCODED_AUTHORIZATION = "233"
 HARDCODED_COOKIE = (
-    "cert_common=9e56a54c-ab45-40d3-bb87-ff03fd949e81; "
-    "Qs_lvt_357693=1744888696%2C1744969268%2C1749459574%2C1778311264; "
-    "__guid=73887506.3542549961087167500.1778311278556.5703; "
+    "cert_common=7217dfe0-ac94-465a-86a6-764537398fa2; "
+    "Qs_lvt_357693=1744888696%2C1744969268%2C1749459574%2C1779181602; "
+    "__guid=73887506.1514512696017862000.1779181617928.2058; "
     "__quc_silent__=1; "
-    "Q=u%3D360H2931642336%26n%3D%26le%3D%26m%3DZGt3WGWOWGWOWGWOWGWOWGWOAGZ3%26qid%3D2931642336%26im%3D1_t011655040b3ed000bf%26src%3Dpcw_quake%26t%3D1; "
-    "__NS_Q=u%3D360H2931642336%26n%3D%26le%3D%26m%3DZGt3WGWOWGWOWGWOWGWOWGWOAGZ3%26qid%3D2931642336%26im%3D1_t011655040b3ed000bf%26src%3Dpcw_quake%26t%3D1; "
-    "T=s%3Db83769237d3ff73b0c889bf57699b12f%26t%3D1778311396%26lm%3D0-1%26lf%3D2%26sk%3Dbce334b7c0083ba05b6cbc12b4cd85d9%26mt%3D1778311396%26rc%3D%26v%3D2.0%26a%3D1; "
-    "__NS_T=s%3Db83769237d3ff73b0c889bf57699b12f%26t%3D1778311396%26lm%3D0-1%26lf%3D2%26sk%3Dbce334b7c0083ba05b6cbc12b4cd85d9%26mt%3D1778311396%26rc%3D%26v%3D2.0%26a%3D1; "
-    "Qs_pv_357693=597084160631076400%2C2307276960280465400%2C365256175586685700%2C809127707400654200%2C4108715305003766300"
+    " Q=u%3D360H2931642336%26n%3D%26le%3D%26m%3DZGt3WGWOWGWOWGWOWGWOWGWOAGZ3%26qid%3D2931642336%26im%3D1_t011655040b3ed000bf%26src%3Dpcw_quake%26t%3D1; "
+    " __NS_Q=u%3D360H2931642336%26n%3D%26le%3D%26m%3DZGt3WGWOWGWOWGWOWGWOWGWOAGZ3%26qid%3D2931642336%26im%3D1_t011655040b3ed000bf%26src%3Dpcw_quake%26t%3D1; "
+    " T=s%3Db784206206357d47c26db38d707de85d%26t%3D1779181643%26lm%3D0-1%26lf%3D2%26sk%3Db4eba7106209e63c9ccf9777b3973e81%26mt%3D1779181643%26rc%3D%26v%3D2.0%26a%3D1; "
+    "__NS_T=s%3Db784206206357d47c26db38d707de85d%26t%3D1779181643%26lm%3D0-1%26lf%3D2%26sk%3Db4eba7106209e63c9ccf9777b3973e81%26mt%3D1779181643%26rc%3D%26v%3D2.0%26a%3D1; "
+    " Qs_pv_357693=1128314277085501600%2C597084160631076400%2C1734549011565333000%2C1209205886521709300%2C990809580613132300"
 )
 
 
@@ -187,7 +186,7 @@ def load_request_template(args: argparse.Namespace) -> tuple[dict[str, str], dic
     body.setdefault("latest", True)
     body.setdefault("ignore_cache", False)
     body.setdefault("shortcuts", [])
-    body["size"] = args.page_size
+    body["size"] = min(args.page_size, MAX_QUERY_RECORDS)
     return headers, body
 
 
@@ -280,6 +279,9 @@ def get_pagination(payload: dict[str, Any]) -> dict[str, int]:
     }
 
 
+MAX_QUERY_RECORDS = 100
+
+
 def fetch_targets(
     headers: dict[str, str],
     base_body: dict[str, Any],
@@ -288,11 +290,10 @@ def fetch_targets(
     request_timeout: float,
     delay: float,
 ) -> list[Target]:
+    page_size = 50
     unique: dict[tuple[str, int], Target] = {}
-    page_index = 0
-    total_pages: int | None = pages if pages > 0 else None
 
-    while total_pages is None or page_index < total_pages:
+    for page_index in range(2):
         body = dict(base_body)
         body["start"] = page_index * page_size
         body["size"] = page_size
@@ -303,24 +304,20 @@ def fetch_targets(
 
         batch = extract_targets(payload)
         pagination = get_pagination(payload)
-        if total_pages is None:
-            total = pagination["total"]
-            actual_page_size = pagination["page_size"] or page_size
-            total_pages = max(1, ceil(total / actual_page_size)) if total > 0 else 1
-            print(f"[page] total={total} page_size={actual_page_size} total_pages={total_pages}")
+        total_pages = pagination["total"] // page_size + (1 if pagination["total"] % page_size else 0)
+        print(f"[fetch] page={page_index + 1}/2 got={len(batch)} total_pages_available={total_pages}")
 
-        current_page = pagination["page_index"] or page_index + 1
-        print(f"[fetch] page={current_page}/{total_pages} got={len(batch)}")
         for target in batch:
             if target.key in unique:
                 unique[target.key] = merge_target(unique[target.key], target)
             else:
                 unique[target.key] = target
 
-        page_index += 1
-        if not batch or len(batch) < page_size:
+        if total_pages < 2:
+            print(f"[fetch] only {total_pages} page(s) available, stopping")
             break
-        if delay > 0 and page_index < total_pages:
+
+        if delay > 0 and page_index < 1:
             time.sleep(delay)
 
     return list(unique.values())
