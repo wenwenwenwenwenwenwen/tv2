@@ -1,8 +1,4 @@
 36.5.95.18:18008	六安市
 119.251.162.17:8881	沧州市
-lechengkuandai.com:8881	沧州市
-www.lechengkuandai.com:8881	沧州市
-60.6.229.145:88	邢台市
 db.396621173.xyz:88	邢台市
-hulunbeier.dmvkiut.cn:80	香港
 wenzhou.cqyvfza.cn:80	香港
