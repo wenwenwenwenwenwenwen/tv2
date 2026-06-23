@@ -1,4 +1,3 @@
-36.5.95.18:18008	六安市
 119.251.162.17:8881	沧州市
 lechengkuandai.com:8881	沧州市
 www.lechengkuandai.com:8881	沧州市
