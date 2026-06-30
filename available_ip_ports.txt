@@ -4,3 +4,4 @@ lechengkuandai.com:8881	沧州市
 www.lechengkuandai.com:8881	沧州市
 hulunbeier.dmvkiut.cn:80	香港
 wenzhou.cqyvfza.cn:80	香港
+yangzhou.aehoogc.cn:80	香港
