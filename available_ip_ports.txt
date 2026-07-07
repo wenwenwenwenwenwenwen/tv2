@@ -1,8 +1,6 @@
-114.100.48.52:18008	六安市
 182.45.151.118:888	德州市
 lechengkuandai.com:8881	沧州市
 www.lechengkuandai.com:8881	沧州市
-123.183.161.81:88	邢台市
 hulunbeier.dmvkiut.cn:80	香港
 wenzhou.cqyvfza.cn:80	香港
 yangzhou.aehoogc.cn:80	香港
